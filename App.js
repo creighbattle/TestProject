@@ -1,32 +1,23 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, Button, FlatList, SafeAreaView, Text } from 'react-native';
-import { createStackNavigator } from 'react-navigation-stack';
-import { createSwitchNavigator, createAppContainer } from 'react-navigation';
-import FoodListScreen from './src/screens/FoodListScreen';
+import React, { Fragment } from 'react'
+import { mapping, light as lightTheme } from '@eva-design/eva'
+import { ApplicationProvider, IconRegistry } from 'react-native-ui-kitten'
+import { EvaIconsPack } from '@ui-kitten/eva-icons'
 
-const AppStack = createStackNavigator({
-    FoodList: FoodListScreen,
-});
+import Firebase, { FirebaseProvider } from './src/utils'
+import TabNavigator from './src/navigation/TabNavigator'
 
-const AppContainer = createAppContainer(createSwitchNavigator(
-    {
-        App: AppStack,
-    },
-    {
-        initialRouteName: 'App',
-    }
-));
+import { Buffer } from 'buffer';
+global.Buffer = Buffer;
 
-class App extends Component {
+const App = () => (
+  <Fragment>
+    <IconRegistry icons={EvaIconsPack} />
+    <ApplicationProvider mapping={mapping} theme={lightTheme}>
+      <FirebaseProvider value={Firebase}>
+        <TabNavigator />
+      </FirebaseProvider>
+    </ApplicationProvider>
+  </Fragment>
+)
 
-    render() {
-        return (
-            <AppContainer
-                screenProps={{ appName: 'TestProject' }}
-            />
-        )
-    }
-}
-
-
-export default App;
+export default App
